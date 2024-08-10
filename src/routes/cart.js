@@ -1,5 +1,5 @@
 import express from "express";
-import { auth } from "../middleware/authentication";
+import { auth } from "../middleware/authentication.js";
 import {
   getCartByAccountId,
   getAllCart,
@@ -9,9 +9,9 @@ import {
 
 const router = express.Router();
 
-router.get("/cart/:id", [auth], getCartByAccountId);
-router.get("/cart", [auth], getAllCart);
-router.post("cart", [auth], createCart);
-router.delete("/cart", [auth], deleteCart);
+router.get("/cart/:account_id", [auth], getCartByAccountId);
+router.get("/cart", getAllCart);
+router.post("/cart", [auth], createCart);
+router.delete("/cart/:id", [auth], deleteCart);
 
 export default router;

@@ -45,21 +45,16 @@ async function createProduct(req, res) {
       const upProduct = await prisma.product.create({
         data: {
           product_name: product_name,
-          product_price: product_price,
+          product_price: parseInt(product_price),
           product_description: product_description,
+          product_images: req.file.filename,
         },
       });
-      if (upProduct) return res.json({ status: 201, data: upProduct });
-      else
-        return res
-          .json({
-            error: { status: 400, message: "data tidak terupload" },
-          })
-          .status(400);
+      if (upProduct)
+        return res.json({ status: 201, data: upProduct }).status(200);
+      else return res.json({ error: { message: "Product tidak terupload" } });
     } else
-      return res.json({
-        error: { status: 400, message: "Data tidak lengkap" },
-      });
+      return res.json({ error: { message: "Data tidak lengkap" } }).status(400);
   } catch (err) {
     return console.log(err);
   }

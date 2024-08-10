@@ -10,6 +10,9 @@ import { fileStorage, fileFilter } from "./middleware/multer.js";
 import userRoute from "./routes/users.js";
 import productRoute from "./routes/product.js";
 import productImageRoute from "./routes/productImages.js";
+import cartRoute from "./routes/cart.js";
+import processRoute from "./routes/process.js";
+import favoriteRoute from "./routes/favorite.js";
 
 // configuration
 dot.config();
@@ -24,6 +27,9 @@ app.use(
 app.use("/api", userRoute);
 app.use("/api", productRoute);
 app.use("/api", productImageRoute);
+app.use("/api", cartRoute);
+app.use("/api", processRoute);
+app.use("/api", favoriteRoute);
 
 app.listen(process.env.PORT, () =>
   console.log(`server up and running on PORT: ${process.env.PORT}`)

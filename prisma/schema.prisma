@@ -20,17 +20,27 @@ model users {
 }
 
 model favorite {
-  id         Int    @id @default(autoincrement())
-  product_id Int
-  account_id Int
-  email      String
+  id                  Int    @id @default(autoincrement())
+  product_id          Int
+  account_id          Int
+  email               String
+  product_name        String
+  product_description String
+  product_images      String
+
+  @@unique([account_id, product_id])
 }
 
 model cart {
-  id         Int    @id @default(autoincrement())
-  product_id Int
-  account_id Int
-  email      String
+  id            Int    @id @default(autoincrement())
+  product_id    Int
+  account_id    Int
+  email         String
+  product_image String
+  product_name  String
+  product_price Int
+
+  @@unique([account_id, product_id])
 }
 
 model product {
@@ -38,6 +48,7 @@ model product {
   product_name        String
   product_price       Int
   product_description String
+  product_images      String
 }
 
 model product_images {
@@ -47,11 +58,16 @@ model product_images {
 }
 
 model procces {
-  id         Int    @id @default(autoincrement())
-  product_id Int
-  account_id Int
-  email      String
-  status     String
+  id                  Int    @id @default(autoincrement())
+  product_id          Int
+  account_id          Int
+  email               String
+  status              String
+  quantity            String
+  price               Int
+  product_name        String
+  product_description String
+  product_image       String
 }
 
 model comments {

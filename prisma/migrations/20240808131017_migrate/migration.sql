@@ -7,6 +7,7 @@ CREATE TABLE `users` (
     `address` VARCHAR(191) NULL,
     `note` VARCHAR(191) NULL,
     `phoneNumber` VARCHAR(191) NULL,
+    `profilePitcure` VARCHAR(191) NULL,
     `created` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
 
     UNIQUE INDEX `users_email_key`(`email`),
@@ -20,6 +21,7 @@ CREATE TABLE `favorite` (
     `account_id` INTEGER NOT NULL,
     `email` VARCHAR(191) NOT NULL,
 
+    UNIQUE INDEX `favorite_account_id_product_id_key`(`account_id`, `product_id`),
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
@@ -30,19 +32,25 @@ CREATE TABLE `cart` (
     `account_id` INTEGER NOT NULL,
     `email` VARCHAR(191) NOT NULL,
 
+    UNIQUE INDEX `cart_account_id_product_id_key`(`account_id`, `product_id`),
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
 CREATE TABLE `product` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
-    `product_id` INTEGER NOT NULL,
-    `account_id` INTEGER NOT NULL,
-    `email` VARCHAR(191) NOT NULL,
     `product_name` VARCHAR(191) NOT NULL,
     `product_price` INTEGER NOT NULL,
-    `product_images` JSON NOT NULL,
     `product_description` VARCHAR(191) NOT NULL,
+
+    PRIMARY KEY (`id`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+-- CreateTable
+CREATE TABLE `product_images` (
+    `id` INTEGER NOT NULL AUTO_INCREMENT,
+    `product_id` INTEGER NOT NULL,
+    `product_images` VARCHAR(191) NOT NULL,
 
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
@@ -54,6 +62,8 @@ CREATE TABLE `procces` (
     `account_id` INTEGER NOT NULL,
     `email` VARCHAR(191) NOT NULL,
     `status` VARCHAR(191) NOT NULL,
+    `quantity` VARCHAR(191) NOT NULL,
+    `price` INTEGER NOT NULL,
 
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
