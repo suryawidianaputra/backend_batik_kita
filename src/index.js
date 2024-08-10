@@ -13,6 +13,7 @@ import productImageRoute from "./routes/productImages.js";
 import cartRoute from "./routes/cart.js";
 import processRoute from "./routes/process.js";
 import favoriteRoute from "./routes/favorite.js";
+import commentRoute from "./routes/comments.js";
 
 // configuration
 dot.config();
@@ -30,6 +31,7 @@ app.use("/api", productImageRoute);
 app.use("/api", cartRoute);
 app.use("/api", processRoute);
 app.use("/api", favoriteRoute);
+app.use("/api", commentRoute);
 
 app.listen(process.env.PORT, () =>
   console.log(`server up and running on PORT: ${process.env.PORT}`)

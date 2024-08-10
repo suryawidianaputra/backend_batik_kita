@@ -7,7 +7,7 @@ import {
 } from "../controllers/favorite.js";
 const router = express.Router();
 
-router.get("/favorite/:id", [auth], getFavoriteAccountId);
+router.get("/favorite/:account_id", [auth], getFavoriteAccountId);
 router.post("/favorite", [auth], createFavorite);
 router.delete("/favorite/:id", [auth], deleteFavorite);
 

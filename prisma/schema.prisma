@@ -20,13 +20,13 @@ model users {
 }
 
 model favorite {
-  id                  Int    @id @default(autoincrement())
-  product_id          Int
-  account_id          Int
-  email               String
-  product_name        String
-  product_description String
-  product_images      String
+  id            Int    @id @default(autoincrement())
+  product_id    Int
+  account_id    Int
+  email         String
+  product_name  String
+  product_price Int
+  product_image String
 
   @@unique([account_id, product_id])
 }

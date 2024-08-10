@@ -3,7 +3,7 @@ const prisma = new PrismaClient();
 
 async function getProductById(req, res) {
   try {
-    const { product_id } = req.body;
+    // const { product_id } = req.body;
     if (!parseInt(req.params.product_id))
       return res.json({
         error: {
@@ -21,7 +21,6 @@ async function getProductById(req, res) {
 
 async function createProduct(req, res) {
   try {
-    console.log("REQ");
     const { product_id } = req.body;
     const get = await prisma.product.findFirst({
       where: { id: parseInt(product_id) },
