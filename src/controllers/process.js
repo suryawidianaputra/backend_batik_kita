@@ -17,7 +17,13 @@ async function getProcessByProcessId() {
     const findUserProcess = await prisma.procces.findFirst({
       where: { id: parseInt(req.params.id) },
     });
-    if (findUserProcess) return res.json({ data: findUserProcess }).status(200);
+    const getUserData = await prisma.users.findFirst({
+      where: { id: findUserProcess.account_id },
+    });
+    if (findUserProcess)
+      return res
+        .json({ data: findUserProcess, userData: getUserData })
+        .status(200);
   } catch (err) {
     return console.log(err);
   }
