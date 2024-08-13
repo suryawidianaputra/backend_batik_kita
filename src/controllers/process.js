@@ -56,7 +56,9 @@ async function createProcess(req, res) {
       where: { id: parseInt(product_id) },
     });
 
-    const getUser = await prisma.users.findFirst({ where: { id: account_id } });
+    const getUser = await prisma.users.findFirst({
+      where: { id: account_id, email: email },
+    });
 
     if (getProduct && getUser) {
       const upProcess = await prisma.procces.create({
