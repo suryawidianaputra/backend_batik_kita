@@ -12,6 +12,36 @@ async function getProcessByAccountId(req, res) {
   }
 }
 
+async function getProcessByProcessId() {
+  try {
+    const findUserProcess = await prisma.procces.findFirst({
+      where: { id: parseInt(req.params.id) },
+    });
+    if (findUserProcess) return res.json({ data: findUserProcess }).status(200);
+  } catch (err) {
+    return console.log(err);
+  }
+}
+
+async function getAllProcess(req, res) {
+  try {
+    const filter = req.query.filter;
+    const getProcess = await prisma.procces.findMany({
+      where: filter !== "all" ? { status: filter } : undefined,
+      orderBy: {
+        id: "desc",
+      },
+    });
+    if (getProcess) return res.json({ data: getProcess }).status(200);
+    else
+      return res.json({
+        error: { message: "tidak dapat melakukan GET", filter },
+      });
+  } catch (err) {
+    return console.log(err);
+  }
+}
+
 async function createProcess(req, res) {
   try {
     const { product_id, account_id, email, status, quantity } = req.body;
@@ -19,7 +49,10 @@ async function createProcess(req, res) {
     const getProduct = await prisma.product.findFirst({
       where: { id: parseInt(product_id) },
     });
-    if (getProduct) {
+
+    const getUser = await prisma.users.findFirst({ where: { id: account_id } });
+
+    if (getProduct && getUser) {
       const upProcess = await prisma.procces.create({
         data: {
           product_id,
@@ -35,7 +68,10 @@ async function createProcess(req, res) {
       });
       if (upProcess) return res.json({ data: upProcess }).status(201);
       else return res.json({ error: { message: "data tidak diUpload" } });
-    }
+    } else
+      return res.json({
+        error: { status: 400, message: "Ada kesalahan dalam memproses" },
+      });
   } catch (err) {
     return console.log(err);
   }
@@ -71,4 +107,11 @@ async function deleteProcess(req, res) {
   }
 }
 
-export { getProcessByAccountId, createProcess, updateProcess, deleteProcess };
+export {
+  getProcessByAccountId,
+  getAllProcess,
+  createProcess,
+  updateProcess,
+  deleteProcess,
+  getProcessByProcessId,
+};

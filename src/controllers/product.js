@@ -5,13 +5,7 @@ const prisma = new PrismaClient();
 async function getProduct(req, res) {
   try {
     const getProduct = await prisma.product.findMany();
-    const getProductImage = await prisma.product_images.findFirst({
-      where: { product_id: getProduct.id },
-    });
-    if (getProduct && getProductImage)
-      return res
-        .json({ status: 200, data: getProduct, image: getProductImage })
-        .status(200);
+    return res.json({ status: 200, data: getProduct }).status(200);
   } catch (err) {
     return console.log(err);
   }
@@ -22,13 +16,11 @@ async function getProductById(req, res) {
     const getProduct = await prisma.product.findFirst({
       where: { id: parseInt(req.params.id) },
     });
-    const getProductImage = await prisma.product_images.findFirst({
-      where: { product_id: getProduct.id },
-    });
-    if (getProduct && getProductImage)
-      return res
-        .json({ status: 200, data: getProduct, image: getProductImage })
-        .status(200);
+    // const getProductImage = await prisma.product_images.findFirst({
+    //   where: { product_id: getProduct.id },
+    // });
+    if (getProduct)
+      return res.json({ status: 200, data: getProduct }).status(200);
     else
       return res.json({
         error: { status: 404, message: "product tidak ditemukan" },
@@ -63,16 +55,12 @@ async function createProduct(req, res) {
 async function updateProduct(req, res) {
   try {
     const { product_name, product_price, product_description } = req.body;
-    if (
-      trimmed(product_name) &&
-      trimmed(product_price) &&
-      trimmed(product_description)
-    ) {
+    if (product_name && product_price && product_description) {
       const data = await prisma.product.findFirst({
         where: { id: parseInt(req.params.id) },
       });
       const updateProduct = await prisma.product.update({
-        where: parseInt(req.params.id),
+        where: { id: parseInt(req.params.id) },
         data: {
           product_name: product_name || data.product_name,
           product_price: product_price || data.product_price,
