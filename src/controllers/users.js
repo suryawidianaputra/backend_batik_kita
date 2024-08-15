@@ -29,6 +29,19 @@ async function GET(req, res) {
   }
 }
 
+async function GetAllUsers(req, res) {
+  try {
+    const userData = await prisma.users.findMany();
+    if (userData) return res.json({ data: userData });
+    else
+      return res
+        .json({ error: { status: 404, message: "Data tidak ditemukan" } })
+        .status(404);
+  } catch (err) {
+    return console.log(err);
+  }
+}
+
 async function POST(req, res) {
   try {
     const { username, email, password } = req.body;
@@ -100,7 +113,7 @@ async function DELETE(req, res) {
 async function ADDRESS(req, res) {
   try {
     const { address, note, phoneNumber } = req.body;
-    if (!(trimmed(address) && trimmed(note) && trimmed(phoneNumber)))
+    if (!(address && note && phoneNumber))
       return res
         .json({ error: { status: 400, message: "Data tidak lengkap" } })
         .status(400);
@@ -132,4 +145,4 @@ async function PICTURE(req, res) {
   }
 }
 
-export { GET, POST, PATCH, DELETE, ADDRESS, PICTURE };
+export { GET, POST, PATCH, DELETE, ADDRESS, PICTURE, GetAllUsers };

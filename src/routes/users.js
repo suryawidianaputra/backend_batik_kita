@@ -7,6 +7,7 @@ import {
   DELETE,
   ADDRESS,
   PICTURE,
+  GetAllUsers,
 } from "../controllers/users.js";
 
 const route = express.Router();
@@ -16,6 +17,7 @@ route.post("/users", [auth], POST);
 route.patch("/users/:id", [auth], PATCH);
 route.delete("/users/:id", [auth], DELETE);
 route.patch("/users/address/:id", [auth], ADDRESS);
-route.patch("/users/pitcture/:id", [auth], PICTURE);
+route.patch("/users/picture/:id", [auth], PICTURE);
+route.get("/users/all", [auth], GetAllUsers);
 
 export default route;
