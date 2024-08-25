@@ -20,6 +20,9 @@ CREATE TABLE `favorite` (
     `product_id` INTEGER NOT NULL,
     `account_id` INTEGER NOT NULL,
     `email` VARCHAR(191) NOT NULL,
+    `product_name` VARCHAR(191) NOT NULL,
+    `product_price` INTEGER NOT NULL,
+    `product_image` VARCHAR(191) NOT NULL,
 
     UNIQUE INDEX `favorite_account_id_product_id_key`(`account_id`, `product_id`),
     PRIMARY KEY (`id`)
@@ -31,6 +34,9 @@ CREATE TABLE `cart` (
     `product_id` INTEGER NOT NULL,
     `account_id` INTEGER NOT NULL,
     `email` VARCHAR(191) NOT NULL,
+    `product_image` VARCHAR(191) NOT NULL,
+    `product_name` VARCHAR(191) NOT NULL,
+    `product_price` INTEGER NOT NULL,
 
     UNIQUE INDEX `cart_account_id_product_id_key`(`account_id`, `product_id`),
     PRIMARY KEY (`id`)
@@ -42,6 +48,9 @@ CREATE TABLE `product` (
     `product_name` VARCHAR(191) NOT NULL,
     `product_price` INTEGER NOT NULL,
     `product_description` VARCHAR(191) NOT NULL,
+    `product_images` VARCHAR(191) NOT NULL,
+    `soldout` INTEGER NULL,
+    `quantity` INTEGER NULL,
 
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
@@ -64,6 +73,9 @@ CREATE TABLE `procces` (
     `status` VARCHAR(191) NOT NULL,
     `quantity` VARCHAR(191) NOT NULL,
     `price` INTEGER NOT NULL,
+    `product_name` VARCHAR(191) NOT NULL,
+    `product_description` VARCHAR(191) NOT NULL,
+    `product_image` VARCHAR(191) NOT NULL,
 
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
@@ -73,8 +85,11 @@ CREATE TABLE `comments` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `account_id` INTEGER NOT NULL,
     `product_id` INTEGER NOT NULL,
+    `commant_id` INTEGER NULL,
     `email` VARCHAR(191) NOT NULL,
     `comments` VARCHAR(191) NOT NULL,
+    `love` BOOLEAN NULL,
 
+    UNIQUE INDEX `comments_id_account_id_love_key`(`id`, `account_id`, `love`),
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;

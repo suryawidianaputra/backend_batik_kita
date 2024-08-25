@@ -7,7 +7,7 @@ async function getCommentByProductId(req, res) {
       return res.json({
         error: { status: 400, message: "product_id dibutuhkan" },
       });
-    const getCommentDataById = await prisma.comments.findMany({
+    const getCommentByProductId = await prisma.comments.findMany({
       where: { product_id: parseInt(req.params.product_id) },
     });
     if (getCommentByProductId.length)
@@ -15,7 +15,7 @@ async function getCommentByProductId(req, res) {
     else
       return res
         .json({
-          error: { status: 404, message: "Data tidak ditemukan" },
+          data: [],
         })
         .status(404);
   } catch (err) {
@@ -27,10 +27,11 @@ async function createComment(req, res) {
   try {
     const { account_id, product_id, email, comments } = req.body;
     if (account_id && product_id && email && comments) {
-      const updata = prisma.comments.create({
+      const updata = await prisma.comments.create({
         data: { account_id, product_id, email, comments },
       });
-      if (updata) return res.json({ data: updata }).status(200);
+      console.log(updata);
+      if (updata) return res.json({ data: updata, h: "H" }).status(200);
       else
         return res
           .json({

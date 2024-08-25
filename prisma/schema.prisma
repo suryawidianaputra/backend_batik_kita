@@ -49,6 +49,8 @@ model product {
   product_price       Int
   product_description String
   product_images      String
+  soldout             Int?
+  quantity            Int?
 }
 
 model product_images {
@@ -71,9 +73,13 @@ model procces {
 }
 
 model comments {
-  id         Int    @id @default(autoincrement())
+  id         Int      @id @default(autoincrement())
   account_id Int
   product_id Int
+  commant_id Int?
   email      String
   comments   String
+  love       Boolean?
+
+  @@unique([id, account_id, love])
 }

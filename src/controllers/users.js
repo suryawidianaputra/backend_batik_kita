@@ -29,6 +29,28 @@ async function GET(req, res) {
   }
 }
 
+async function getAccountByEmail(req, res) {
+  try {
+    const email = req.params.email;
+    const getAccountData = await prisma.users.findFirst({
+      where: { email: email },
+    });
+    if (getAccountData.email)
+      return res.json({ data: getAccountData }).status(200);
+    else
+      return res
+        .json({
+          error: {
+            status: 404,
+            message: "Data tidak ditemukan",
+          },
+        })
+        .status(404);
+  } catch (err) {
+    return console.log(err);
+  }
+}
+
 async function GetAllUsers(req, res) {
   try {
     const userData = await prisma.users.findMany();
@@ -145,4 +167,13 @@ async function PICTURE(req, res) {
   }
 }
 
-export { GET, POST, PATCH, DELETE, ADDRESS, PICTURE, GetAllUsers };
+export {
+  GET,
+  getAccountByEmail,
+  POST,
+  PATCH,
+  DELETE,
+  ADDRESS,
+  PICTURE,
+  GetAllUsers,
+};

@@ -32,7 +32,13 @@ async function getProductById(req, res) {
 
 async function createProduct(req, res) {
   try {
-    const { product_name, product_price, product_description } = req.body;
+    const {
+      product_name,
+      product_price,
+      product_description,
+      quantity,
+      soldout,
+    } = req.body;
     if (product_name && product_price && product_description) {
       const upProduct = await prisma.product.create({
         data: {
@@ -40,6 +46,8 @@ async function createProduct(req, res) {
           product_price: parseInt(product_price),
           product_description: product_description,
           product_images: req.file.filename,
+          quantity: parseInt(quantity),
+          soldout: parseInt(soldout),
         },
       });
       if (upProduct)
@@ -54,7 +62,8 @@ async function createProduct(req, res) {
 
 async function updateProduct(req, res) {
   try {
-    const { product_name, product_price, product_description } = req.body;
+    const { product_name, product_price, product_description, quantity } =
+      req.body;
     if (product_name && product_price && product_description) {
       const data = await prisma.product.findFirst({
         where: { id: parseInt(req.params.id) },
@@ -65,6 +74,7 @@ async function updateProduct(req, res) {
           product_name: product_name || data.product_name,
           product_price: product_price || data.product_price,
           product_description: product_description || data.product_description,
+          quantity: parseInt(quantity),
         },
       });
       if (updateProduct) return res.json({ status: 200, data: updateProduct });
@@ -75,6 +85,29 @@ async function updateProduct(req, res) {
           error: { status: 400, message: "Data tidak lengkap" },
         })
         .status(400);
+  } catch (err) {
+    return console.log(err);
+  }
+}
+
+async function upQuantityProudct(req, res) {
+  const { soldout } = req.body;
+  try {
+    const getData = prisma.product.findFirst({
+      where: { id: parseInt(req.params.product_id) },
+    });
+    const data = prisma.product.update({
+      where: { id: parseInt(req.params.product_id) },
+      data: {
+        soldout: parseInt(soldout),
+        quantity: getData.quantity - parseInt(soldout),
+      },
+    });
+    if (data) return res.json({ status: 200, data });
+    else
+      return res.json({
+        error: { status: 400, message: "data tidak diperbarahui" },
+      });
   } catch (err) {
     return console.log(err);
   }
@@ -103,4 +136,5 @@ export {
   createProduct,
   updateProduct,
   deleteProduct,
+  upQuantityProudct,
 };

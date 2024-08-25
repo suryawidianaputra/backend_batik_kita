@@ -18,7 +18,10 @@ import commentRoute from "./routes/comments.js";
 // configuration
 dot.config();
 const app = express();
-app.use(express.json(), cors(corsConfiguration));
+app.use(
+  express.json(),
+  cors({ origin: "*", methods: ["GET", "POST", "PATCH", "DELETE"] })
+);
 app.use(express.static("images"));
 app.use(
   multer({ storage: fileStorage, fileFilter: fileFilter }).single("image")

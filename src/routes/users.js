@@ -8,11 +8,13 @@ import {
   ADDRESS,
   PICTURE,
   GetAllUsers,
+  getAccountByEmail,
 } from "../controllers/users.js";
 
 const route = express.Router();
 
-route.get("/users", [auth], GET);
+route.post("/users/login", [auth], GET);
+route.get("/users/profile/:email", [auth], getAccountByEmail);
 route.post("/users", [auth], POST);
 route.patch("/users/:id", [auth], PATCH);
 route.delete("/users/:id", [auth], DELETE);

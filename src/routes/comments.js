@@ -1,3 +1,4 @@
+// import express from "express";
 import express from "express";
 import { auth } from "../middleware/authentication.js";
 import {
@@ -7,11 +8,10 @@ import {
   deleteComment,
 } from "../controllers/comments.js";
 
-const route = express.Router();
+const router = express.Router();
+router.get("/comment/:product_id", [auth], getCommentByProductId);
+router.post("/comment", [auth], createComment);
+router.patch("/comment/:id", [auth], updateComment);
+router.delete("/comment/:id", [auth], deleteComment);
 
-route.get("/comment/:product_id", [auth], getCommentByProductId);
-route.post("/comment", [auth], createComment);
-route.patch("/comment/:id", [auth], updateComment);
-route.delete("/comment/:id", [auth], deleteComment);
-
-export default route;
+export default router;
