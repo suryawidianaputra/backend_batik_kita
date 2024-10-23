@@ -18,8 +18,8 @@ route.get("/users/profile/:email", [auth], getAccountByEmail);
 route.post("/users", [auth], POST);
 route.patch("/users/:id", [auth], PATCH);
 route.delete("/users/:id", [auth], DELETE);
-route.patch("/users/address/:id", [auth], ADDRESS);
-route.patch("/users/picture/:id", [auth], PICTURE);
+route.patch("/users/address/:email", [auth], ADDRESS);
+route.patch("/users/picture/:email", [auth], PICTURE);
 route.get("/users/all", [auth], GetAllUsers);
 
 export default route;

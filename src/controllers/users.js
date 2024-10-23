@@ -140,7 +140,7 @@ async function ADDRESS(req, res) {
         .json({ error: { status: 400, message: "Data tidak lengkap" } })
         .status(400);
     const updata = await prisma.users.update({
-      where: { id: parseInt(req.params.id) },
+      where: { email: req.params.email },
       data: { address: address, note: note, phoneNumber: phoneNumber },
     });
     if (updata) return res.json({ status: 200, data: updata }).status(200);
@@ -157,7 +157,7 @@ async function PICTURE(req, res) {
         .status(400);
     else {
       const upPitcture = await prisma.users.update({
-        where: { id: parseInt(req.params.id) },
+        where: { email: req.params.email },
         data: { profilePitcure: req.file.filename },
       });
       if (upPitcture) return res.json({ data: upPitcture }).status(200);

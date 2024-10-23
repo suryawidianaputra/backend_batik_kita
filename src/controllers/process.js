@@ -1,10 +1,10 @@
 import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
-async function getProcessByAccountId(req, res) {
+async function getProcessByEmail(req, res) {
   try {
     const findUserProcess = await prisma.procces.findMany({
-      where: { account_id: parseInt(req.params.account_id) },
+      where: { email: req.params.email },
     });
     if (findUserProcess) return res.json({ data: findUserProcess }).status(200);
   } catch (err) {
@@ -50,7 +50,8 @@ async function getAllProcess(req, res) {
 
 async function createProcess(req, res) {
   try {
-    const { product_id, account_id, email, status, quantity } = req.body;
+    const { product_id, account_id, email, status, quantity, ongkir } =
+      req.body;
 
     const getProduct = await prisma.product.findFirst({
       where: { id: parseInt(product_id) },
@@ -66,12 +67,14 @@ async function createProcess(req, res) {
           product_id,
           account_id,
           email,
-          status,
+          status: "menunggu",
           quantity,
-          price: getProduct.product_price * parseInt(quantity),
+          price:
+            getProduct.product_price * parseInt(quantity) + parseInt(ongkir),
           product_name: getProduct.product_name,
           product_description: getProduct.product_description,
           product_image: getProduct.product_images,
+          resi: `${new Date().getTime()}-${account_id}-${product_id}-${quantity}`,
         },
       });
       if (upProcess) return res.json({ data: upProcess }).status(201);
@@ -116,7 +119,7 @@ async function deleteProcess(req, res) {
 }
 
 export {
-  getProcessByAccountId,
+  getProcessByEmail,
   getAllProcess,
   createProcess,
   updateProcess,

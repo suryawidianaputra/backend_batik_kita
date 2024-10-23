@@ -49,8 +49,8 @@ async function createCart(req, res) {
     else {
       const upData = await prisma.cart.create({
         data: {
-          account_id: account_id,
-          product_id: product_id,
+          account_id: parseInt(account_id),
+          product_id: parseInt(product_id),
           email: email,
           product_name: getProductData.product_name,
           product_image: getProductData.product_images,

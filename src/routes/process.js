@@ -4,15 +4,15 @@ import {
   createProcess,
   getAllProcess,
   deleteProcess,
-  getProcessByAccountId,
+  getProcessByEmail,
   updateProcess,
   getProcessByProcessId,
 } from "../controllers/process.js";
 
 const router = express.Router();
 
-router.get("/process/:account_id", [auth], getProcessByAccountId);
-router.get("/process/:id", [auth], getProcessByAccountId);
+router.get("/process/:email", [auth], getProcessByEmail);
+router.get("/process/:id", [auth], getProcessByProcessId);
 router.get("/process", [auth], getAllProcess);
 router.post("/process", [auth], createProcess);
 router.patch("/process/:id", [auth], updateProcess);

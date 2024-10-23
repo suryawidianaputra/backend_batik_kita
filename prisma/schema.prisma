@@ -70,6 +70,7 @@ model procces {
   product_name        String
   product_description String
   product_image       String
+  resi                String
 }
 
 model comments {
